@@ -192,6 +192,14 @@ export type StopReason = 'end_turn' | 'max_tokens' | 'tool_use' | 'refusal'
 
 export type StopDetails = { type: 'refusal'; category: null; explanation: null }
 
+/** output_tokens 的明细；开启思考或 safety_check 为 high 时返回 */
+export type OutputTokenDetails = {
+  /** 思考 token，已包含在 output_tokens 中 */
+  thinking_tokens?: number
+  /** 安全审核 token，已包含在 output_tokens 中 */
+  safety_tokens?: number
+}
+
 export type MessageUsage = {
   /** 未命中缓存的输入 Token */
   input_tokens: number
@@ -199,8 +207,16 @@ export type MessageUsage = {
   cache_read_input_tokens: number
   /** message_start 中为 0，message_delta 中为全轮累计值 */
   output_tokens: number
+  /** 开启思考或 safety_check 为 high 时返回 */
+  output_tokens_details?: OutputTokenDetails
   /** 仅当 message_delta 中有对外输出的搜索结果块时出现 */
-  server_tool_use?: { web_search_requests: number; tool_search: number }
+  server_tool_use?: {
+    web_search_requests: number
+    tool_search: number
+    web_fetch_requests?: number
+    tool_fetch?: number
+    tool_image_search?: number
+  }
 }
 
 /** content_block_start 携带的初始内容块；工具块已是完整内容 */
@@ -261,4 +277,26 @@ export type ApiErrorBody = {
     param?: string | null
     code?: string | null
   }
+}
+
+// ---------- 账户余额 ----------
+
+/**
+ * GET /user/balance 的单币种余额。金额是字符串，保留服务端精度；
+ * currency 官方为 CNY / USD，自定义 API 服务可能返回其他值。
+ */
+export type BalanceInfo = {
+  currency: string
+  /** 总可用余额，含赠金与充值余额 */
+  total_balance: string
+  /** 未过期的赠金余额 */
+  granted_balance: string
+  /** 充值余额 */
+  topped_up_balance: string
+}
+
+export type UserBalance = {
+  /** 当前账户是否有余额可供 API 调用 */
+  is_available: boolean
+  balance_infos: BalanceInfo[]
 }

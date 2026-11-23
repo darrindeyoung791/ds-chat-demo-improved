@@ -95,6 +95,7 @@ src/
 - 修改存储或索引时**递增 `DB_VERSION`**，并在 `upgrade` 里创建缺失的 store/索引；本应用**不迁移旧数据格式**，`upgrade` 不负责搬运旧消息。
 - 每个操作拿到连接后立即创建事务；同步抛错不会自动回滚事务，需 `abortTransaction()` 显式中止（参考 `saveSession`、`commitStaging`）。
 - 历史导入是「暂存 → 校验 → 单事务替换」：替换失败时原有数据必须保持不变；删除会话只清理不再被任何会话引用的本地原件，远端文件不删。
+- 账户余额（[account.ts](src/services/account.ts)，`GET /user/balance`）只保存在内存中，不写入 localStorage / IndexedDB，也不进入归档；Token 用量复用助手消息上的 `usage`，由 [usage.ts](src/services/chat/usage.ts) 沿当前分支汇总，导入的历史会话没有该数据（不要为此提升归档版本）。
 
 ### PWA 与 Service Worker
 

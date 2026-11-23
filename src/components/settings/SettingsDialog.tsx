@@ -10,6 +10,7 @@ import {
   IconLinkOutline16,
   IconSettingsOutline16,
   IconUploadOutline14,
+  IconWalletOutline16,
 } from '../base/icons.js'
 import {
   BackupError,
@@ -38,6 +39,7 @@ import { Modal } from '../base/Modal.js'
 import { Select } from '../base/Select.js'
 import { showToast } from '../base/toastState.js'
 import { ApiKeyConfirm, ApiKeyField, useApiKeyEditor } from './ApiKeyField.js'
+import { BalancePanel } from './BalancePanel.js'
 import {
   closeSettings,
   setSettingsSection,
@@ -62,6 +64,11 @@ const sections: { value: SettingsSection; label: TranslationKey; icon: ReactNode
     icon: <IconSettingsOutline16 />,
   },
   { value: 'data', label: 'settingDialogAsideDataOptionLabel', icon: <IconDataOutline16 /> },
+  {
+    value: 'balance',
+    label: 'settingDialogAsideBalanceOptionLabel',
+    icon: <IconWalletOutline16 />,
+  },
   { value: 'about', label: 'settingDialogAsideAboutOptionLabel', icon: <IconInfoOutline16 /> },
 ]
 
@@ -157,6 +164,8 @@ const SettingsContent = () => {
               />
               {isMobile ? <ApiKeyConfirm editor={apiKeyEditor} /> : null}
             </>
+          ) : section === 'balance' ? (
+            <BalancePanel />
           ) : (
             <AboutSection />
           )}

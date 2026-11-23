@@ -28,6 +28,8 @@ This project is a static chat demo powered by the DeepSeek API. No application b
 - Mobile portrait gestures: swipe right to open the sidebar, swipe left (inside the sidebar or on the area outside it) to close
 - Choose the model in Settings → General: `deepseek-flash`, `deepseek-v4-pro`, or enter a custom DeepSeek model name (useful in case new models are released before this project catches up)
 - Installable as a PWA: once deployed over http(s) you can install it to the desktop or add it to the home screen and run it in its own window; with no network you can still open the app and read your locally stored conversations (sending new messages requires network)
+- Shows the accumulated token usage of the current chat below the input box (hover for the input, cache, and output breakdown)
+- Shows the balance of the current API Key under Settings → Balance; the balance is kept in memory only and is never written to local storage or chat archives
 
 ## Getting started
 
@@ -78,6 +80,8 @@ The API origin is injected at build time (default `https://api.deepseek.com`). T
 > If you trust this project's source code, you can also [deploy your own GitHub Pages](#deploying-your-own-github-pages) to make sure the build comes straight from the source.
 
 Your API key and settings are stored in the browser's localStorage. Conversations and original attachments are stored in IndexedDB. Local data is isolated by browser profile and site origin. Sending messages, uploading attachments, and using speech features sends the relevant content to the configured API service.
+
+Token usage is stored with assistant messages in IndexedDB and is not included in exported archives. Balance data under Settings → Balance is kept in memory only and is cleared when the page is refreshed.
 
 History import and export in Settings use ZIP archives. After confirmation and successful validation, importing replaces all local conversations and attachments. Exports include conversations and locally available original images, but exclude API keys, settings, and original non-image attachments. See the [history import/export documentation](src/services/chat/history/README.md) for the archive format and preservation details.
 

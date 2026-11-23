@@ -1,11 +1,14 @@
 import clsx from 'clsx'
+import { useMemo } from 'react'
 import { useIsMobile } from '../../app/viewport.js'
 import { useTranslate } from '../../i18n/index.js'
 import type { Session } from '../../services/chat/types.js'
+import { getSessionUsage } from '../../services/chat/usage.js'
 import { ChatInput } from '../chatInput/ChatInput.js'
 import { MessageList } from '../messages/MessageList.js'
 import { Footer } from './Footer.js'
 import { MobileHeader } from './MobileHeader.js'
+import { SessionUsage } from './SessionUsage.js'
 import styles from './SessionView.module.css'
 
 /** 会话页：标题栏（移动端为顶栏）+ 消息列表，输入框吸底；输入框下方说明内容由 AI 生成、项目非官方 */
@@ -21,6 +24,7 @@ export const SessionView = ({
   const t = useTranslate()
   const isMobile = useIsMobile()
   const title = session.title || t('untitledChat')
+  const usage = useMemo(() => getSessionUsage(session), [session])
   return (
     <div className={styles.view}>
       {isMobile ? (
@@ -39,7 +43,11 @@ export const SessionView = ({
           <div className={styles.inputContainer}>
             <ChatInput sessionId={session.id} />
             <div className={styles.caveat}>{t('contentCaveat')}</div>
-            <Footer compact className={styles.footer} />
+            <Footer
+              compact
+              className={styles.footer}
+              leading={usage ? <SessionUsage usage={usage} /> : null}
+            />
           </div>
         }
       />

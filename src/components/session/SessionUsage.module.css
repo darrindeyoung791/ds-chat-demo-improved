@@ -1,0 +1,14 @@
+.total {
+  cursor: default;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.hint {
+  color: var(--dsw-alias-label-dimmed);
+}

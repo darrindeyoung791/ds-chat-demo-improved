@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { useEffect, useMemo, useState } from 'react'
+import { useOverlayBack } from '../../app/overlayHistory.js'
 import { useTranslate } from '../../i18n/index.js'
 import {
   IconPanelLeftOutline16,
@@ -193,9 +194,11 @@ export const Sider = ({ mobile = false }: { mobile?: boolean }) => {
         <Modal
           title={t('deleteSessionModalContentTitle')}
           onClose={() => {
-            if (!deletePending) {
-              setDeleting(null)
+            if (deletePending) {
+              return false
             }
+            setDeleting(null)
+            return true
           }}
           footer={
             <>
@@ -230,9 +233,11 @@ export const Sider = ({ mobile = false }: { mobile?: boolean }) => {
         <Modal
           title={t('deleteSelectedSessionsModalTitle')}
           onClose={() => {
-            if (!bulkPending) {
-              setBulkDeleting(false)
+            if (bulkPending) {
+              return false
             }
+            setBulkDeleting(false)
+            return true
           }}
           footer={
             <>
@@ -263,6 +268,7 @@ export const Sider = ({ mobile = false }: { mobile?: boolean }) => {
 /** 移动端抽屉：浮在页面上方，点空白区域关闭。 */
 export const MobileSider = () => {
   const open = useMobileSider((state) => state.open)
+  useOverlayBack(open, closeMobileSider)
   if (!open) {
     return null
   }

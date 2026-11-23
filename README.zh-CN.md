@@ -1,4 +1,4 @@
-# DS API Demo with Hotkeys
+# DS Chat Demo Improved
 
 [English](README.md) | 简体中文
 
@@ -30,14 +30,15 @@
 - 支持安装为 PWA：部署到 http(s) 后可用浏览器「安装」到桌面或添加到主屏，以独立窗口运行；离开网络时仍能打开页面并查看本机保存的历史对话（发起对话仍需联网）
 - 输入框下方显示当前会话的累计 Token 用量（悬停查看输入、缓存与输出明细）
 - 设置 → 账户余额查看当前 API Key 的余额；余额只保存在内存中，不写入本地存储或历史归档
+- 移动端返回键会关闭最上层浮层（设置、侧边栏、历史搜索、来源面板），而不是直接离开页面
 
 ## 运行
 
 准备 Node.js 22.12+ 和 pnpm：
 
 ```sh
-git clone https://github.com/darrindeyoung791/ds-api-demo-hotkeys.git
-cd ds-api-demo-hotkeys
+git clone https://github.com/darrindeyoung791/ds-chat-demo-improved.git
+cd ds-chat-demo-improved
 pnpm install
 pnpm dev
 ```

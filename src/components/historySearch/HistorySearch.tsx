@@ -8,6 +8,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react'
 import { createPortal } from 'react-dom'
+import { useOverlayBack } from '../../app/overlayHistory.js'
 import { useTranslate } from '../../i18n/index.js'
 import {
   collectHistoryIndex,
@@ -31,6 +32,7 @@ import styles from './HistorySearch.module.css'
 /** 历史对话搜索：Ctrl+K 打开，输入停顿后检索全部会话的提问与回答 */
 export const HistorySearch = () => {
   const open = useHistorySearch((state) => state.open)
+  useOverlayBack(open, closeHistorySearch)
   return open ? <HistorySearchPanel /> : null
 }
 

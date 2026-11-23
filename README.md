@@ -1,4 +1,4 @@
-# DS API Demo with Hotkeys
+# DS Chat Demo Improved
 
 English | [简体中文](README.zh-CN.md)
 
@@ -30,14 +30,15 @@ This project is a static chat demo powered by the DeepSeek API. No application b
 - Installable as a PWA: once deployed over http(s) you can install it to the desktop or add it to the home screen and run it in its own window; with no network you can still open the app and read your locally stored conversations (sending new messages requires network)
 - Shows the accumulated token usage of the current chat below the input box (hover for the input, cache, and output breakdown)
 - Shows the balance of the current API Key under Settings → Balance; the balance is kept in memory only and is never written to local storage or chat archives
+- On mobile, the system back button closes the topmost overlay (settings, sidebar, history search, source panel) instead of leaving the page
 
 ## Getting started
 
 Install Node.js 22.12+ and pnpm, then run:
 
 ```sh
-git clone https://github.com/darrindeyoung791/ds-api-demo-hotkeys.git
-cd ds-api-demo-hotkeys
+git clone https://github.com/darrindeyoung791/ds-chat-demo-improved.git
+cd ds-chat-demo-improved
 pnpm install
 pnpm dev
 ```

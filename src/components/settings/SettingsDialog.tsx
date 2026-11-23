@@ -98,9 +98,11 @@ const SettingsContent = () => {
         className={styles.dialog}
         mainClassName={styles.dialogMain}
         onClose={() => {
-          if (!historyDelete.busy) {
-            closeSettings()
+          if (historyDelete.busy) {
+            return false
           }
+          closeSettings()
+          return true
         }}
         onShortcut={(event) => {
           // 与全局快捷键一致：Ctrl / ⌘ + ↑ / ↓ 在分组之间切换
@@ -294,9 +296,11 @@ const useHistoryDelete = () => {
     busy,
     open: () => setOpened(true),
     cancel: () => {
-      if (!deleting.current) {
-        setOpened(false)
+      if (deleting.current) {
+        return false
       }
+      setOpened(false)
+      return true
     },
     confirm,
   }

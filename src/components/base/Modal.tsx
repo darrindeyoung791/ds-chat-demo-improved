@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { useOverlayBack } from '../../app/overlayHistory.js'
 import { useTranslate } from '../../i18n/index.js'
 import { IconCloseOutline16 } from './icons.js'
 import { IconButton } from './IconButton.js'
@@ -31,7 +32,8 @@ export const Modal = ({
   className?: string
   /** 内容区的 class */
   mainClassName?: string
-  onClose: () => void
+  /** 返回 false 表示暂时拒绝关闭（例如正在删除），移动端返回键会保留该弹窗 */
+  onClose: () => unknown
   /**
    * 仅在作为最上层弹窗时收到的按键（Esc 除外）：供弹窗内部实现快捷键，
    * 叠了确认弹窗时不会触发。
@@ -44,6 +46,8 @@ export const Modal = ({
   onCloseRef.current = onClose
   const onShortcutRef = useRef(onShortcut)
   onShortcutRef.current = onShortcut
+  // 弹窗按挂载顺序入栈，返回键先关闭最后打开的确认框，再关闭设置等底层弹窗。
+  useOverlayBack(true, onClose)
   useEffect(() => {
     const token = {}
     openModals.push(token)

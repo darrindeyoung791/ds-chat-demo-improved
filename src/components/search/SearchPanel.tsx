@@ -1,3 +1,4 @@
+import { useOverlayBack } from '../../app/overlayHistory.js'
 import { useTranslate } from '../../i18n/index.js'
 import { IconCloseOutline16 } from '../base/icons.js'
 import { IconButton } from '../base/IconButton.js'
@@ -10,6 +11,7 @@ export const SearchPanel = () => {
   const t = useTranslate()
   const entry = useSearchPanel((state) => state.entry)
   const sources = useSearchPanel((state) => state.sources)
+  useOverlayBack(entry !== null, closeSearchPanel)
   if (!entry) {
     return null
   }

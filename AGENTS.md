@@ -26,7 +26,7 @@
 
 ## 部署（GitHub Pages）
 
-- 推送到 `main` 触发 [pages.yml](.github/workflows/pages.yml)：`pnpm install --frozen-lockfile` → `pnpm type` → `pnpm lint` → `pnpm build` → 上传 `dist/` → `actions/deploy-pages` 发布到 <https://darrindeyoung791.github.io/ds-api-demo-hotkeys/>。
+- 推送到 `main` 触发 [pages.yml](.github/workflows/pages.yml)：`pnpm install --frozen-lockfile` → `pnpm type` → `pnpm lint` → `pnpm build` → 上传 `dist/` → `actions/deploy-pages` 发布到 <https://darrindeyoung791.github.io/ds-chat-demo-improved/>。
 - 仓库的 Pages 来源设为 **GitHub Actions**（不是分支发布），部署环境名为 `github-pages`；发布只发生在 `main` 分支。
 - 产物资源是相对路径（`publicPath: 'auto'`），因此可以部署在仓库子路径下；不要改成绝对路径，否则 Pages 子路径部署会失效。PWA 清单里的 `start_url` / `scope` / 图标路径同样保持相对写法。
 - 本仓库是 `deepseek-ai/chat-demo` 的 fork：若 Actions / Pages 处于停用状态，需要在仓库 Settings 里先启用，再推送触发部署。
@@ -118,6 +118,7 @@ src/
 - 样式一律 CSS Modules，文件名 `<Component>.module.css`，类名**小驼峰**（`styles.dangerOutlined`），组合用 `clsx()`。`import styles from './X.module.css'` 的类型来自 `src/env.d.ts` 的通配声明（`Record<string, string>`）；部分模块另有 `X.module.css.d.ts` 声明精确类名（优先于通配声明生效），**该文件存在时新增类名必须同步补进去**。
 - 颜色、字号、控件高度、动画时长取 `theme.css` 中的 `--dsw-*` / `--ds-*` 变量，深浅色通过 `body.dark` 与 `data-ds-dark-theme` 切换；不要在组件里硬编码颜色。
 - 浮层（Menu、Modal、Select、Tooltip、HoverCard、DragMask）统一用 `createPortal` 挂到 `document.body`，定位辅助见 [anchored.ts](src/components/base/anchored.ts)。
+- 浮层的「返回键关闭」统一由 [overlayHistory.ts](src/app/overlayHistory.ts) 管理：`Modal`、移动端抽屉、Ctrl+K 搜索与来源面板都通过 `useOverlayBack` 注册，共用一条同 URL 历史记录；不要在组件里各自 `pushState`。
 - 移动端断点是 768px（`useIsMobile`），输入框跟随视觉视口（`useMobileViewport`）；涉及移动端交互的改动要在窄屏下自测。
 - Ctrl+K 搜索按官方行为实现：只匹配消息正文（不单独匹配标题）；结果不截断、按时间倒序，输入停顿约 250ms 后整体替换（清空立即生效），等待期间显示「搜索中...」；列表以关键词为 key 重建并回到顶部，新结果不会追加在旧结果后面；组词期间不搜索，组词结束再计时；判断是否在组词优先用事件自带的 `isComposing`，即使浏览器漏发 `compositionend`，后续普通输入也会恢复搜索；关键词为空时只显示输入提示。
 - Markdown 渲染链路是「节流 → 解析 AST → 渲染」（[Markdown.tsx](src/components/markdown/Markdown.tsx)），流式文本不要绕过节流直接解析。`dangerouslySetInnerHTML` 仅出现在 Prism 高亮、KaTeX、Mermaid 三处，输入都经过本地生成或严格配置（Mermaid `securityLevel: 'strict'`）；新增用法需要单独论证。

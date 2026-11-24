@@ -146,7 +146,6 @@ const SettingsContent = () => {
           ) : section === 'data' ? (
             <>
               <ApiKeyField editor={apiKeyEditor} />
-              <div className={styles.notice}>{t('dataPrivacyNotice')}</div>
               <ImportHistory historyImport={historyImport} disabled={historyBusy} />
               <ExportHistory disabled={historyBusy} />
               <SettingCell

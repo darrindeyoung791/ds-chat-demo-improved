@@ -27,6 +27,7 @@ export const ApiKeyField = ({ editor }: { editor: ApiKeyEditor }) => {
     <div className={styles.cell}>
       <div className={styles.apiKey}>
         <div className={styles.label}>{t('apiKeyStart')}</div>
+        <div className={styles.notice}>{t('dataPrivacyNotice')}</div>
         {apiKey && !editing ? (
           <div className={styles.apiKeySaved}>
             <span className={styles.apiKeyMask}>{'*'.repeat(apiKey.length)}</span>
